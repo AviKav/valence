@@ -73,7 +73,7 @@ fn init_clients(
         Added<Client>,
     >,
     layers: Query<Entity, With<ChunkLayer>>,
-) {
+) -> Result {
     for (
         mut client,
         mut layer_id,
@@ -84,7 +84,7 @@ fn init_clients(
         main_slot,
     ) in &mut clients
     {
-        let layer = layers.single();
+        let layer = layers.single()?;
 
         layer_id.0 = layer;
         visible_chunk_layer.0 = layer;
@@ -95,6 +95,7 @@ fn init_clients(
         client
             .send_chat_message("Use `add` and `center` chat messages to change the world border.");
     }
+    Ok(())
 }
 
 fn display_diameter(mut layers: Query<(&mut ChunkLayer, &WorldBorderLerp)>) {
@@ -108,7 +109,7 @@ fn display_diameter(mut layers: Query<(&mut ChunkLayer, &WorldBorderLerp)>) {
 fn border_controls(
     mut events: EventReader<ChatMessageEvent>,
     mut layers: Query<(&mut WorldBorderCenter, &mut WorldBorderLerp), With<ChunkLayer>>,
-) {
+) -> Result {
     for x in events.read() {
         let parts: Vec<&str> = x.message.split(' ').collect();
         match parts[0] {
@@ -121,7 +122,7 @@ fn border_controls(
                     return;
                 };
 
-                let (_, mut lerp) = layers.single_mut();
+                let (_, mut lerp) = layers.single_mut()?;
 
                 lerp.target_diameter = lerp.current_diameter + value;
                 lerp.remaining_ticks = ticks;
@@ -135,11 +136,12 @@ fn border_controls(
                     return;
                 };
 
-                let (mut center, _) = layers.single_mut();
+                let (mut center, _) = layers.single_mut()?;
                 center.x = x;
                 center.z = z;
             }
             _ => (),
         }
     }
+    Ok(())
 }

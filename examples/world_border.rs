@@ -114,13 +114,9 @@ fn border_controls(
         let parts: Vec<&str> = x.message.split(' ').collect();
         match parts[0] {
             "add" => {
-                let Ok(value) = parts[1].parse::<f64>() else {
-                    return;
-                };
+                let value = parts[1].parse::<f64>()?;
 
-                let Ok(ticks) = parts[2].parse::<u64>() else {
-                    return;
-                };
+                let ticks = parts[2].parse::<u64>()?;
 
                 let (_, mut lerp) = layers.single_mut()?;
 
@@ -128,13 +124,9 @@ fn border_controls(
                 lerp.remaining_ticks = ticks;
             }
             "center" => {
-                let Ok(x) = parts[1].parse::<f64>() else {
-                    return;
-                };
+                let x = parts[1].parse::<f64>()?;
 
-                let Ok(z) = parts[2].parse::<f64>() else {
-                    return;
-                };
+                let z = parts[2].parse::<f64>()?;
 
                 let (mut center, _) = layers.single_mut()?;
                 center.x = x;

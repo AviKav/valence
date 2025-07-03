@@ -7,7 +7,6 @@ use std::time::Instant;
 use bevy_app::prelude::*;
 use bevy_ecs::prelude::*;
 use bevy_ecs::query::QueryData;
-use bevy_ecs::world::Command;
 use byteorder::{NativeEndian, ReadBytesExt};
 use bytes::{Bytes, BytesMut};
 use derive_more::{Deref, DerefMut, From, Into};
@@ -390,7 +389,7 @@ pub struct DisconnectClient {
 
 impl Command for DisconnectClient {
     fn apply(self, world: &mut World) {
-        if let Some(mut entity) = world.get_entity_mut(self.client) {
+        if let Ok(mut entity) = world.get_entity_mut(self.client) {
             if let Some(mut client) = entity.get_mut::<Client>() {
                 client.write_packet(&DisconnectS2c {
                     reason: self.reason.into(),
@@ -606,7 +605,7 @@ pub fn despawn_disconnected_clients(
     mut disconnected_clients: RemovedComponents<Client>,
 ) {
     for entity in disconnected_clients.read() {
-        if let Some(mut entity) = commands.get_entity(entity) {
+        if let Ok(mut entity) = commands.get_entity(entity) {
             entity.insert(Despawned);
         }
     }

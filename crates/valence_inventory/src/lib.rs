@@ -811,7 +811,7 @@ fn update_cursor_item(
 fn handle_close_handled_screen(mut packets: EventReader<PacketEvent>, mut commands: Commands) {
     for packet in packets.read() {
         if packet.decode::<CloseHandledScreenC2s>().is_some() {
-            if let Some(mut entity) = commands.get_entity(packet.client) {
+            if let Ok(mut entity) = commands.get_entity(packet.client) {
                 entity.remove::<OpenInventory>();
             }
         }

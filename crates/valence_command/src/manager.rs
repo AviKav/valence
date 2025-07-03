@@ -3,7 +3,7 @@ use std::collections::{HashMap, HashSet};
 use bevy_app::{App, Plugin, PreUpdate};
 use bevy_ecs::entity::Entity;
 use bevy_ecs::prelude::{
-    Added, Changed, Commands, DetectChanges, Event, EventReader, EventWriter, IntoSystemConfigs,
+    Added, Changed, Commands, DetectChanges, Event, EventReader, EventWriter, IntoScheduleConfigs,
     Mut, Or, Query, Res,
 };
 use petgraph::graph::NodeIndex;

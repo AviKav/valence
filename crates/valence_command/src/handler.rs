@@ -4,7 +4,7 @@ use std::marker::PhantomData;
 use bevy_app::{App, Plugin, PostStartup};
 use bevy_ecs::change_detection::ResMut;
 use bevy_ecs::event::{Event, EventReader, EventWriter};
-use bevy_ecs::prelude::{Entity, IntoSystemConfigs, Resource};
+use bevy_ecs::prelude::{Entity, IntoScheduleConfigs, Resource};
 use petgraph::prelude::NodeIndex;
 use valence_server::EventLoopPreUpdate;
 

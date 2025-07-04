@@ -220,7 +220,7 @@ mod item_menu {
                 continue;
             }
 
-            event_writer.send(MenuItemSelectEvent {
+            event_writer.write(MenuItemSelectEvent {
                 client: player,
                 idx: selected_slot as u16,
             });

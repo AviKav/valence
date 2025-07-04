@@ -30,7 +30,7 @@ fn main() {
             Update,
             (
                 load_clients,
-                apply_deferred.after(load_clients).before(init_advancements),
+                ApplyDeferred.after(load_clients).before(init_advancements),
                 init_clients,
                 init_advancements,
                 sneak,
@@ -111,7 +111,7 @@ fn setup(
                 y_coord: -0.5,
             },
         ))
-        .set_parent(root_advancement);
+        .insert(ChildOf(root_advancement));
 
     commands
         .spawn((
@@ -132,7 +132,7 @@ fn setup(
                 y_coord: 0.5,
             },
         ))
-        .set_parent(root_advancement);
+        .insert(ChildOf(root_advancement));
 
     let root2_criteria = commands
         .spawn((

@@ -1182,10 +1182,10 @@ pub(crate) fn update_view_and_layers(
     for event in rx.try_iter() {
         match event {
             ChannelEvent::UnloadEntity(event) => {
-                unload_entity_writer.send(event);
+                unload_entity_writer.write(event);
             }
             ChannelEvent::LoadEntity(event) => {
-                load_entity_writer.send(event);
+                load_entity_writer.write(event);
             }
         };
     }

@@ -108,7 +108,7 @@ impl UpdateAdvancementCachedBytesQuery<'_, '_> {
         };
 
         if let Some(a_parent) = a_parent {
-            let a_identifier = advancement_id_query.get(a_parent.get())?;
+            let a_identifier = advancement_id_query.get(a_parent.parent())?;
             pkt.parent_id = Some(a_identifier.0.borrowed());
         }
 
@@ -238,7 +238,7 @@ impl Encode for AdvancementUpdateEncodeS2c<'_, '_, '_> {
         for progress in progress {
             let a = parent_query.get(progress.0)?;
             progress_mapping
-                .entry(a.get())
+                .entry(a.parent())
                 .and_modify(|v| v.push(*progress))
                 .or_insert(vec![*progress]);
         }

@@ -116,7 +116,7 @@ fn command_event_system<T>(
     for command_event in commands_executed.read() {
         if let Some(executable) = command.executables.get(&command_event.node) {
             let result = executable(&mut ParseInput::new(&command_event.command));
-            events.send(CommandResultEvent {
+            events.write(CommandResultEvent {
                 result,
                 executor: command_event.executor,
                 modifiers: command_event.modifiers.clone(),

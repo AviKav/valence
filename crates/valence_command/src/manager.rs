@@ -93,7 +93,7 @@ fn read_incoming_packets(
     for packet in packets.read() {
         let client = packet.client;
         if let Some(packet) = packet.decode::<CommandExecutionC2s>() {
-            event_writer.send(CommandExecutionEvent {
+            event_writer.write(CommandExecutionEvent {
                 command: packet.command.to_string(),
                 executor: client,
             });
@@ -261,7 +261,7 @@ fn parse_incoming_commands(
 
         for node in to_be_executed {
             trace!("executing node: {node:?}");
-            event_writer.send(CommandProcessedEvent {
+            event_writer.write(CommandProcessedEvent {
                 command: args.join(" "),
                 executor,
                 modifiers: modifiers.clone(),
